@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: node:latest # Use an image that suits your project's needs
+      image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access to install packages
 
     steps:
@@ -25,7 +25,7 @@ jobs:
       - name: Run tests
         run: yarn test
 
-      - name: Publish NPM package
-        run: yarn npm publish # Use yarn to publish
+      - name: Publish to npm
+        run: yarn npm publish # Publish the package using Yarn
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Use the NPM_TOKEN secret for authentication
