@@ -16,12 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Prepare .npmrc
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Set yarn berry as the default package manager
         run: yarn set version berry
         # No need to set NPM_TOKEN here as it's not used directly by this command
@@ -31,8 +25,3 @@ jobs:
 
       - name: Run tests
         run: yarn test
-
-      - name: Publish to npm
-        run: yarn npm publish # Publish the package using Yarn
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
