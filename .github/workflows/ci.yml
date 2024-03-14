@@ -16,9 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install specific Yarn version
-      run: npm install -g yarn
-
     - name: Set yarn berry as the default package manager
       run: yarn set version berry  
 
