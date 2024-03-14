@@ -12,14 +12,13 @@ jobs:
     container:
       image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access
-
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: yarn install
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run tests
         run: yarn test
