@@ -24,13 +24,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jacobwi/workspace-spinner.git"
+    "url": "git+https://github.com/jacobwi/workspace-spinner.git"
   },
   "bugs": {
     "url": "https://github.com/jacobwi/workspace-spinner/issues"
   },
   "homepage": "https://github.com/jacobwi/workspace-spinner#readme",
-  "bin": "./src/main.js",
+  "bin": {
+    "workspace-spinner": "src/main.js"
+  },
   "scripts": {
     "start": "node src/main.js",
     "lint": "eslint .",

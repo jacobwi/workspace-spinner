@@ -14,10 +14,12 @@ jobs:
       options: --user root # Depending on the image, you might need root access
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: yarn install
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run tests
         run: yarn test
