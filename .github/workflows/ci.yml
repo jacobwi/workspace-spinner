@@ -16,10 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set yarn berry as the default package manager
-        run: yarn set version berry
-        # No need to set NPM_TOKEN here as it's not used directly by this command
-
       - name: Install dependencies
         run: yarn install
 
