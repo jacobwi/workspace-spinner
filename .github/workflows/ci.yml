@@ -12,13 +12,18 @@ jobs:
     container:
       image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Match this version with your development environment
+          cache: "yarn" # Enable Yarn caching
+
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Run tests
         run: yarn test
