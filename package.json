@@ -67,7 +67,9 @@
   },
   "release": {
     "repositoryUrl": "https://github.com/jacobwi/workspace-spinner.git",
-    "branches": ["main"],
+    "branches": [
+      "main"
+    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
