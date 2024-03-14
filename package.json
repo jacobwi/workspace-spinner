@@ -1,6 +1,7 @@
 {
   "name": "workspace-spinner",
   "version": "1.0.0",
+  "private": false,
   "description": "🌀 Workspace Spinner - Your go-to CLI tool for effortlessly spinning up new JavaScript project workspaces! 🚀 Easily configure Yarn workspaces, integrate essential development tools like ESLint, Prettier, and Husky, and set sail on your coding journey with a solid foundation. Whether you're crafting a web app, building a library, or starting a new project, Workspace Spinner weaves together your project's initial setup seamlessly, leaving you more time to focus on coding. 🛠️✨",
   "keywords": [
     "workspace",
@@ -35,7 +36,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest",
-    "depcheck": "depcheck"
+    "depcheck": "depcheck",
+    "depcheck:install": "depcheck --install",
+    "publish:npm": "yarn npm publish"
   },
   "packageManager": "yarn@4.1.1",
   "dependencies": {
