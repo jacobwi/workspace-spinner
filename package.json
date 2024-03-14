@@ -37,8 +37,9 @@
     "test": "jest",
     "depcheck": "depcheck",
     "depcheck:install": "depcheck --install",
-    "publish:npm": "yarn npm publish",
-    "release": "standard-version"
+    "prepare": "husky install",
+    "release": "semantic-release",
+    "postinstall": "husky install"
   },
   "packageManager": "yarn@4.1.1",
   "dependencies": {
