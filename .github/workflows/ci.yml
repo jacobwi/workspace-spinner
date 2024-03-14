@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     container:
       image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access to install packages
@@ -16,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Prepare .npmrc
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Set yarn berry as the default package manager
         run: yarn set version berry
 
@@ -28,4 +35,4 @@ jobs:
       - name: Publish to npm
         run: yarn npm publish # Publish the package using Yarn
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Use the NPM_TOKEN secret for authentication
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
