@@ -66,19 +66,13 @@
     "semantic-release": "^23.0.2"
   },
   "release": {
-    "branches": [
-      "main"
-    ],
+    "repositoryUrl": "https://github.com/jacobwi/workspace-spinner.git",
+    "branches": ["main"],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/npm",
-      [
-        "@semantic-release/github",
-        {
-          "githubToken": "${SEMANTIC_RELEASE_TOKEN}"
-        }
-      ]
+      "@semantic-release/github"
     ]
   },
   "husky": {
