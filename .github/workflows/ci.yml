@@ -12,7 +12,8 @@ jobs:
     container:
       image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access
-
+    env:
+      YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
