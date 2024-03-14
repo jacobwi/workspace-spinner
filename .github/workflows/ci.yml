@@ -16,11 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3  # Adjusted to v3
         with:
-          node-version: '20'  # Recommended to use an LTS version of Node.js
-          cache: 'yarn'
+          node-version: "16.x"  # More flexible version specification
       - name: Enable Corepack
         run: corepack enable
       - name: Install Yarn using Corepack
