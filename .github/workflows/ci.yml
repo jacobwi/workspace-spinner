@@ -38,6 +38,6 @@ jobs:
 
       - name: Publish to npm
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: yarn npm publish --access public
+        run: yarn publish
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
