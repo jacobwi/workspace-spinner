@@ -3,10 +3,11 @@ import {
   logSuccess,
   logError,
   logWarning,
-  logWarning2,
   logInfo,
+  directoryExists,
 } from "../src/utils";
 import chalk from "chalk";
+import shell from "shelljs";
 describe("Utility Log Functions", () => {
   beforeEach(() => {
     // Clear all mocks before each test
@@ -59,5 +60,39 @@ describe("Utility Log Functions", () => {
     expect(global.console.log).toHaveBeenCalledWith(
       chalk.blueBright(`ℹ️ ${message}`),
     );
+  });
+});
+
+// Other utility functions
+
+describe("Utility Directory Functions", () => {
+  test("directoryExists returns true if the directory exists", () => {
+    // Create fake environment for fs
+    jest.mock("fs");
+    const fs = require("fs");
+    fs.existsSync = jest.fn(() => true);
+
+    const result = directoryExists("existing-directory");
+    expect(result).toBe(true);
+  });
+
+  test("directoryExists returns false if the directory does not exist", () => {
+    // Create fake environment for fs, create directory then check for different directory
+    jest.mock("fs");
+    const fs = require("fs");
+
+    // Mock the fs.existsSync function to return false
+    fs.existsSync = jest.fn(() => false);
+
+    const result = directoryExists("non-existing-directory");
+
+    expect(result).toBe(false);
+  });
+});
+
+// Execute command function
+describe("Utility Execute Command Function", () => {
+  test("executeCommand calls child_process.execSync with the correct command", () => {
+    // Mock
   });
 });

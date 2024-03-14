@@ -154,3 +154,27 @@ export function checkPrerequisites() {
     logMessage("Yarn is already using Berry or higher.");
   }
 }
+
+// Check input for a valid number
+export const validateNumber = async (input) => {
+  if (isNaN(input) || input < 0) {
+    return "❌ Please enter a valid number";
+  }
+  return true;
+};
+
+// Check input for a valid directory
+export const validateDirectory = async (input) => {
+  if (!fs.existsSync(input)) {
+    return "❌ The directory does not exist";
+  }
+  return true;
+};
+
+// Check if directory exists
+export const directoryExists = (directoryPath) => {
+  if (!fs.existsSync(directoryPath)) {
+    return false;
+  }
+  return true;
+};

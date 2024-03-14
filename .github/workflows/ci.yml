@@ -9,18 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: node:latest # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access to install packages
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set yarn berry as the default package manager
-      run: yarn set version berry  
+      - name: Set yarn berry as the default package manager
+        run: yarn set version berry
 
-    - name: Install dependencies
-      run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Run tests
-      run: yarn test
+      - name: Run tests
+        run: yarn test

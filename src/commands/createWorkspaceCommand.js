@@ -5,6 +5,7 @@ import {
   logSuccess,
   logError,
   logWarning,
+  directoryExists,
 } from "../utils.js";
 import path from "path";
 import fs from "fs"; // Use 'fs' for synchronous functions
@@ -19,6 +20,13 @@ import fsp from "fs/promises"; // Use 'fsp' for promise-based functions
  */
 export async function createWorkspace(workspacePath, packages = [], apps = []) {
   let fullPath = workspacePath;
+
+  if (!directoryExists(fullPath)) {
+    logInfo(`Creating workspace at ${fullPath}...`);
+    await fsp.mkdir(fullPath, { recursive: true });
+  } else {
+    logWarning(`Workspace already exists at ${fullPath}.`);
+  }
 
   process.chdir(fullPath);
   await executeCommand("yarn init -y", "Creating package.json...");

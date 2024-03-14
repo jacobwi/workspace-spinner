@@ -2,15 +2,6 @@
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jacobwi/workspace-spinner/ci.yml?style=for-the-badge&logo=github&label=Yarn%20CI) ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/jacobwi/workspace-spinner?style=for-the-badge) ![GitHub package.json version](https://img.shields.io/github/package-json/v/jacobwi/workspace-spinner?style=for-the-badge&logo=npm) ![GitHub search hit counter](https://img.shields.io/github/search/jacobwi/workspace-spinner/clone?style=for-the-badge&logo=github) ![GitHub search hit counter](https://img.shields.io/github/search/jacobwi/workspace-spinner/visit?style=for-the-badge&logo=github)
 
-
-
-
-
-
-
-
-
-
 > 🚀 Effortlessly spin up new JavaScript project workspaces with just a few commands! Workspace Spinner is your CLI companion to weave together Yarn workspaces, ESLint, Prettier, Husky, and more, into a ready-to-code project structure. 🛠️✨
 
 ## 📖 Description

@@ -8,7 +8,13 @@ import {
   installSelections,
   linkPackageToApp,
 } from "./commands/addProjectCommand.js";
-import { logSuccess, logError, checkPrerequisites, logInfo } from "./utils.js";
+import {
+  logSuccess,
+  logError,
+  checkPrerequisites,
+  logInfo,
+  validateNumber,
+} from "./utils.js";
 
 async function main() {
   try {
@@ -40,6 +46,12 @@ async function promptWorkspaceDetails() {
     type: "input",
     name: "workspaceName",
     message: "Enter the name of your workspace:",
+    validate: (input) => {
+      if (input === "") {
+        return "Workspace name cannot be empty";
+      }
+      return true;
+    },
   });
   const { pathChoice } = await inquirer.prompt({
     type: "list",
@@ -52,7 +64,29 @@ async function promptWorkspaceDetails() {
   });
   return { workspaceName, pathChoice };
 }
-
+/**
+ * Prompts the user to select tools and libraries to install.
+ * @returns {Promise<Array<string>>} The selected tools and libraries.
+ */
+async function promptToolsAndLibraries() {
+  const { selections } = await inquirer.prompt({
+    type: "checkbox",
+    name: "selections",
+    message: "Select tools and libraries to install:",
+    choices: [
+      { name: "Vitest", value: "vitest" },
+      { name: "TailwindCSS", value: "tailwindcss" },
+      { name: "Axios", value: "axios" },
+      { name: "MobX", value: "mobx" },
+      { name: "React Query", value: "react-query" },
+      { name: "React Router DOM", value: "react-router-dom" },
+      { name: "Chakra UI", value: "chakra-ui" },
+      { name: "Jest", value: "jest" },
+      { name: "Cypress", value: "cypress" },
+    ],
+  });
+  return selections;
+}
 /**
  * Sets up the workspace path based on the path choice and workspace name.
  * @param {string} pathChoice - The choice of path ('custom' or any other value).
@@ -81,23 +115,17 @@ async function getCustomPath() {
   return customPath;
 }
 
-/**
- * Prompts the user to select tools and libraries to install.
- * @returns {Promise<Array<string>>} The selected tools and libraries.
- */
-async function promptToolsAndLibraries() {
-  const { selections } = await inquirer.prompt({
-    type: "checkbox",
-    name: "selections",
-    message: "Select tools and libraries to install:",
-    choices: [
-      { name: "Vitest", value: "vitest" },
-      { name: "TailwindCSS", value: "tailwindcss" },
-      { name: "Axios", value: "axios" },
-    ],
+// Prompt the user for the number of apps to create
+export const promptNumberOfApps = async () => {
+  const { numberOfApps } = await inquirer.prompt({
+    type: "input",
+    name: "numberOfApps",
+    message: "How many apps do you want to create?",
+    default: "0",
+    validate: validateNumber,
   });
-  return selections;
-}
+  return numberOfApps;
+};
 
 /**
  * Handles the creation of multiple apps.
@@ -106,24 +134,35 @@ async function promptToolsAndLibraries() {
  * @returns {Array<string>} - An array of app names that were created.
  */
 export async function handleApps(fullPath) {
-  const { numberOfApps } = await inquirer.prompt({
-    type: "number",
-    name: "numberOfApps",
-    message: "How many apps do you want to create?",
-    default: 0,
-  });
-  const apps = [];
-  for (let i = 0; i < numberOfApps; i++) {
-    const { appName } = await inquirer.prompt({
-      type: "input",
-      name: "appName",
-      message: `Enter the name for app #${i + 1}:`,
-    });
-    await createApp(appName, fullPath);
-    apps.push(appName);
+  try {
+    const numberOfApps = await promptNumberOfApps();
+    const apps = [];
+    for (let i = 0; i < numberOfApps; i++) {
+      const { appName } = await inquirer.prompt({
+        type: "input",
+        name: "appName",
+        message: `Enter the name for app #${i + 1}:`,
+      });
+      await createApp(appName, fullPath);
+      apps.push(appName);
+    }
+    return apps;
+  } catch (error) {
+    throw error;
   }
-  return apps;
 }
+
+// Prompt the user for the number of packages to create
+export const promptNumberOfPackages = async () => {
+  const { numberOfPackages } = await inquirer.prompt({
+    type: "input",
+    name: "numberOfPackages",
+    message: "How many packages do you want to create?",
+    default: "0",
+    validate: validateNumber,
+  });
+  return numberOfPackages;
+};
 
 /**
  * Handles the creation of packages based on user input.
@@ -134,12 +173,7 @@ export async function handleApps(fullPath) {
  */
 export async function handlePackages(fullPath, apps) {
   try {
-    const { numberOfPackages } = await inquirer.prompt({
-      type: "number",
-      name: "numberOfPackages",
-      message: "How many packages do you want to create?",
-      default: 0,
-    });
+    const numberOfPackages = await promptNumberOfPackages();
     const packages = [];
     for (let i = 0; i < numberOfPackages; i++) {
       const { packageName } = await inquirer.prompt({
@@ -169,9 +203,7 @@ export async function handlePackages(fullPath, apps) {
     }
     return packages;
   } catch (error) {
-    logError(
-      `An error occurred while creating packages: ${error.message} ${error.stack}`,
-    );
+    throw error;
   }
 }
 
