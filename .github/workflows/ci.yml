@@ -35,7 +35,6 @@ jobs:
       - name: Semantic Release
         if: github.ref == 'refs/heads/main'
         run: yarn release
-        working-directory: /path/to/your/repo  # Set this to your repository's directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
