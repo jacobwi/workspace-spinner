@@ -15,16 +15,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Ensure the full Git history is checked out
-          fetch-depth: 0
 
-      - name: Setup Node.js environment
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          registry-url: "https://registry.npmjs.org/"
-          cache: "yarn"
+          node-version: '16'  # Recommended to use an LTS version of Node.js
+          cache: 'yarn'
+
+      - name: Install Yarn Berry
+        run: yarn set version berry
 
       - name: Install dependencies
         run: yarn install
