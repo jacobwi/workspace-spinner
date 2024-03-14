@@ -9,11 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     container:
       image: node:20 # Use an image that suits your project's needs
-      options: --user root # Depending on the image, you might need root access to install packages
+      options: --user root # Depending on the image, you might need root access
 
     steps:
       - uses: actions/checkout@v2
@@ -23,8 +21,10 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Set yarn berry as the default package manager
         run: yarn set version berry
+        # No need to set NPM_TOKEN here as it's not used directly by this command
 
       - name: Install dependencies
         run: yarn install
