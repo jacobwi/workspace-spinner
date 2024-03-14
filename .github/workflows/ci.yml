@@ -12,12 +12,12 @@ env:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
-      options: --user root
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Ensure the full Git history is checked out
+          fetch-depth: 0
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
