@@ -2,7 +2,7 @@ name: Yarn CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [main, "releases/**"]
   pull_request:
     branches: [main]
 
@@ -10,7 +10,7 @@ env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
-  build-and-publish:
+  build-and-release:
     runs-on: ubuntu-latest
     container:
       image: node:20
@@ -32,12 +32,9 @@ jobs:
       - name: Run tests
         run: yarn test
 
-      # Correctly set the npm registry for Yarn, ensuring the token is used only when needed
-      - name: Configure Yarn for npm registry
-        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-
-      - name: Publish to npm
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: yarn publish
+      - name: Semantic Release
+        if: github.ref == 'refs/heads/main'
+        run: yarn release
         env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
