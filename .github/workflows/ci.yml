@@ -36,7 +36,8 @@ jobs:
       - name: Configure Yarn for npm registry
         run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 
-      # Conditional publish step that only runs on push to main, not on pull requests
       - name: Publish to npm
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: yarn npm publish --access public
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
