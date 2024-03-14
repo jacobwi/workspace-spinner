@@ -1,4 +1,4 @@
-name: Yarn CI
+name: Yarn CI/CD
 
 on:
   push:
@@ -7,24 +7,32 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     container:
       image: node:20 # Use an image that suits your project's needs
       options: --user root # Depending on the image, you might need root access
-    env:
-      YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Match this version with your development environment
-          cache: "yarn" # Enable Yarn caching
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org/"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Run tests
         run: yarn test
+
+      # Conditional publish step that only runs on push to main, not on pull requests
+      - name: Publish to npm
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: yarn npm publish --access public
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
