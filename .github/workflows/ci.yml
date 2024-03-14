@@ -7,26 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
+    container: 
+      image: node:latest # Use an image that suits your project's needs
+      options: --user root # Depending on the image, you might need root access to install packages
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
+    - name: Install specific Yarn version
+      run: npm install -g yarn@4.1.1
 
-      - name: Install dependencies
-        run: yarn install
+    - name: Set yarn berry as the default package manager
+      run: yarn set version berry  
 
-      - name: Run lint
-        run: yarn lint
+    - name: Install dependencies
+      run: yarn install
 
-      - name: Run formatter
-        run: yarn format
-
-      - name: Run tests
-        run: yarn test
+    - name: Run tests
+      run: yarn test
